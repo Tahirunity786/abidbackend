@@ -1,0 +1,103 @@
+{% extends "core_control/base/base.html" %}
+{% load static %}
+{% block optionalcssl %}
+
+    <link rel="stylesheet" href="{% static 'css/optimized.css' %}">
+{% endblock optionalcssl %}
+
+{% block title %}My Profile{% endblock title %}
+
+
+{% block content %}
+
+    <div class="container mb-5 mt-5">
+        <div class="row mt-4 mb-4 ">
+            <div class="col-lg-3 col-md-3 col-sm-12 bg-light rounded-2 h-100 p-4 mb-4">
+                <h5 class="mb-3">Hello username!</h5>
+                <div class="mb-3">
+                    <span class="badge text-bg-success">Account verified</span>
+                </div>
+                <div class="mb-3">
+                    <h5>Manage account</h5>
+                    <ul style="list-style: none;">
+                        <li><a href="/aqib-plaltes/user/profile" class="text-decoration-none text-dark">My profile</a></li>
+                        <li><a href="/aqib-plaltes/user/profile/address-book" class="text-decoration-none text-dark">My Address Book</a></li>
+                    </ul>
+                </div>
+                <div class="mb-4">
+                    <h5>Orders</h5>
+                    <ul style="list-style: none;">
+                        <li><a href="/aqib-plaltes/user/profile/orders" class="text-decoration-none text-dark">My Orders</a></li>
+                        <li><a href="/aqib-plaltes/user/profile/order-cancelation" class="text-decoration-none text-dark">My Cancellations</a></li>
+                        <li><a href="/aqib-plaltes/user/profile/order-return" class="text-decoration-none text-dark">My Returns</a></li>
+                    </ul>
+                </div>
+                <div class="mb-3">
+                    <a href="/aqib-plaltes/user/profile/items/saved" class="fs-4 text-decoration-none text-dark">Saved Items</a>
+
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-12 ps-4 pe-4">
+                <h2>My Profile</h2>
+                <div class="row p-4">
+                    <div class="col-lg-4 col-md-12 col-sm-12">
+                        <div class="p-2"
+                            style="box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;">
+                            <h5 class="mb-3">Full name</h5>
+                            <p>Usman Ali</p>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-4 col-md-12 col-sm-12">
+                        <div class="p-2"
+                            style="box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;">
+                            <div class="mb-2">
+                                <p>Email | <a href="#" class="text-decoration-none mb-3">Change Email</a></p>
+                                <p>abc@gmail.com</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-4 col-md-12 col-sm-12">
+                        <div class="p-2"
+                            style="box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;">
+                            <p>Monile | <a href="#" class="text-decoration-none mb-3">Change Mobile</a></p>
+                            <p>+92 ******* 784</p>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row p-4 mb-4">
+                    <div class="col-lg-4 col-md-12 col-sm-12">
+                        <div class="p-2"
+                            style="box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;">
+                            <h5 class="mb-3">Birthday</h5>
+                            <p>Please add your birthday</p>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-4 col-md-12 col-sm-12">
+                        <div class="p-2"
+                            style="box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;">
+                            <h5 class="mb-3">Gender</h5>
+                            <p>Please add your gender</p>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="mt-5 container">
+                    <div class="mb-3">
+                        <button class="btn-a rounded-2" style="margin: 0px 0px; padding-left:103px ;padding-right:103px ;">Edit Profile
+                            
+                        </button>
+                    </div>
+                    <div class="mb-3">
+                        <button class="btn-a rounded-2" style="margin: 0px 0px;">Change Password
+                       
+                    </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock content %}
