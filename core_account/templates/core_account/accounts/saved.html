@@ -25,7 +25,7 @@
             <div class="col-lg-3 col-md-3 col-sm-12 bg-light rounded-2 h-100 p-4 mb-4">
                 <h5 class="mb-3">Hello username!</h5>
                 <div class="mb-3">
-                    <span class="badge text-bg-success">Account verified</span>
+                    <span class="badge text-bg-success" id="verify"></span>
                 </div>
                 <div class="mb-3">
                     <h5>Manage account</h5>
@@ -240,3 +240,19 @@
 
     {% endblock content %}
 
+    {% block js %}
+    $(document).ready(function () {
+        // Retrieve user data from session storage
+        var userData = JSON.parse(sessionStorage.getItem('userData'));
+        
+        if (userData) {
+            if (userData.is_verified) {
+                
+                $('#verify').removeClass('text-bg-danger').addClass('text-bg-success').text('Account verified');
+            } else {
+                
+                $('#verify').removeClass('text-bg-success').addClass('text-bg-danger').text('Verify your account');
+            }
+        }
+    });
+    {% endblock js %}

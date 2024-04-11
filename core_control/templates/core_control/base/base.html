@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 {% load static %}
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,10 +9,17 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap-grid.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap-utilities.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap-utilities.min.css' %}">
-        {% block optionalcssl %}{% endblock optionalcssl %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap-utilities.min.css' %}">
+    {% block optionalcssl %}{% endblock optionalcssl %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <style>
-        {% block css %}{% endblock css %}
+        {
+            % block css %
+        }
+
+            {
+            % endblock css %
+        }
     </style>
 
     <title>{% block title %}{% endblock title %}</title>
@@ -24,26 +32,32 @@
             <div class="container m-auto justify-content-center">
                 <ul class="d-flex justify-content-center align-items-center a-list" style="margin-bottom: 0px;">
                     <li class="nav-item ms-4">
-                        <a class="nav-link active fs-a" aria-current="page" href="/">Home</a>
+                        <a class="nav-link local-link fs-a pb-2" aria-current="page" href="/">Home</a>
                     </li>
                     <li class="nav-item ms-4">
-                        <a class="nav-link active fs-a" aria-current="page" href="/aqib-plaltes/private-plate/explore">Private Plates</a>
+                        <a class="nav-link local-link fs-a pb-2" aria-current="page"
+                            href="/aqib-plaltes/private-plate/explore">Private Plates</a>
                     </li>
-                    <li class="nav-item dropdown ms-4">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    {% comment %} <li class="nav-item dropdown ms-4">
+                        <a class="nav-link local-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
                             Pages
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/aqib-plaltes/private-plate/number-plate/detail">Product - Details</a></li>
-                            <li><a class="dropdown-item" href="/aqib-plaltes/private-plate/cart">My cart</a></li>
-                    
+                            <li><a class="dropdown-item local-link"
+                                    href="/aqib-plaltes/private-plate/number-plate/detail">Product - Details</a></li>
+                            <li><a class="dropdown-item local-link" href="/aqib-plaltes/private-plate/cart">My cart</a>
+                            </li>
+
                         </ul>
+                    </li> {% endcomment %}
+                    <li class="nav-item ms-4">
+                        <a class="nav-link local-link fs-a pb-2" aria-current="page"
+                            href="/aqib-plaltes/private-plate/faq">Faq</a>
                     </li>
                     <li class="nav-item ms-4">
-                        <a class="nav-link active fs-a" aria-current="page" href="/aqib-plaltes/private-plate/faq">Faq</a>
-                    </li>
-                    <li class="nav-item ms-4">
-                        <a class="nav-link active fs-a" aria-current="page" href="/aqib-plaltes/private-plate/contact">Contact Us</a>
+                        <a class="nav-link local-link fs-a pb-2" aria-current="page"
+                            href="/aqib-plaltes/private-plate/contact">Contact Us</a>
                     </li>
 
                 </ul>
@@ -52,8 +66,8 @@
 
         <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
             <div class="container">
-                <a class="navbar-brand" href="#"><img src="{% static 'media/AqibPlates-updated_edited.webp' %}" alt="Logo"
-                        class="img-fluid"></a>
+                <a class="navbar-brand local-link" href="#"><img
+                        src="{% static 'media/AqibPlates-updated_edited.webp' %}" alt="Logo" class="img-fluid"></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
                     aria-controls="offcanvasRight">
                     <span class="navbar-toggler-icon"></span>
@@ -62,29 +76,32 @@
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 
                         <li class="nav-item">
-
                             <div class="dropdown">
-                                <a class="nav-link active" type="button" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35"
-                                        fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
-                                        <path
-                                            d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
-                                    </svg>
+                                <a class="nav-link " type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span id="profileicon" style="display: none;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35"
+                                            fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                                            <path
+                                                d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
+                                        </svg>
+                                    </span>
+                                    <span id="profilepic">
+                                        <img src="{% static 'media/IMG_20210927_172430-removebg-preview.png' %}"
+                                            alt="profile pic" width="35" height="35" class="rounded-pill"
+                                            style="object-fit: cover; object-position: center;">
+                                    </span>
                                 </a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="/aqib-plaltes/user/profile">Profile</a></li>
-                                    <li><a class="dropdown-item" href="/aqib-plaltes/private-plate/faq">Help</a></li>
-                                    <li><a class="dropdown-item" href="#">Logout</a></li>
+                                <ul id="dropdownMenu" class="dropdown-menu">
+
                                 </ul>
                             </div>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link active" type="button" data-bs-toggle="offcanvas"
+                            <a class="nav-link" type="button" data-bs-toggle="offcanvas"
                                 data-bs-target="#offcanvasRightcart" aria-controls="offcanvasRight">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35"
-                                    fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor"
+                                    class="bi bi-cart" viewBox="0 0 16 16">
                                     <path
                                         d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
                                 </svg>
@@ -180,7 +197,103 @@
     {% block optionalcjsl %}{% endblock optionalcjsl %}
 
     <script>
-        {% block js %}{% endblock js %}
+        $(document).ready(function () {
+            $(".local-link").each(function () {
+                var href = $(this).attr('href');
+                if (href === window.location.pathname) {
+                    $(this).addClass('active');
+                }
+            });
+
+            $(".local-link").click(function () {
+                $(".local-link").removeClass("nav-active");
+                $(this).addClass("nav-active");
+
+                var href = $(this).attr('href');
+                localStorage.setItem('activeNav', href);
+            });
+
+            var activeNav = localStorage.getItem('activeNav');
+            if (!activeNav) {
+                // Set default active link to the home page URL ("/")
+                $(".local-link").removeClass("nav-active");
+                $(".local-link[href='/']").addClass("nav-active");
+                localStorage.setItem('activeNav', '/');
+            } else {
+                $(".local-link").removeClass("nav-active");
+                $(".local-link[href='" + activeNav + "']").addClass("nav-active");
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var accessToken = localStorage.getItem("authtoken");
+            var dropdownMenu = document.getElementById("dropdownMenu");
+
+            if (accessToken) {
+                // Show menu for authenticated user
+                dropdownMenu.innerHTML = `
+                        <li><a id="profile-link" style='cursor:pointer;'  class="dropdown-item local-link">Profile</a></li>
+                        <li><a  style='cursor:pointer;' class="dropdown-item local-link" href="/aqib-plaltes/private-plate/faq">Help</a></li>
+                        <li><a id="logout" style='cursor:pointer;'  class="dropdown-item" href="#">Logout</a></li>
+                   `;
+            } else {
+                // Show menu for non-authenticated user
+                dropdownMenu.innerHTML = `
+                 
+                        <li><a class="dropdown-item " href="/aqib-plaltes/sigin">Register</a></li>
+                        <li><a class="dropdown-item " href="/aqib-plaltes/signup">Login</a></li>
+                    `;
+            }
+        });
+
+        $(document).ready(function () {
+            $("#profile-link").click(function (event) {
+                event.preventDefault(); // Prevent the default action of following the link
+
+                // Retrieve the authentication token from local storage
+                const authToken = localStorage.getItem("authtoken");
+
+                // Make sure the token is not null or empty
+                if (authToken) {
+                    // Construct the API URL with the authentication token
+                    const apiUrl = "/aqib-plaltes/user/profile";
+
+                    // Make the AJAX request
+                    $.ajax({
+                        url: '/aqib-plaltes/account/user/profile',
+                        type: "GET",
+                        headers: {
+                            "Authorization": `Bearer ${authToken}`
+                        },
+                        success: function (data) {
+
+                            var userDataString = JSON.stringify(data);
+                            sessionStorage.setItem('userData', userDataString);
+                            // Redirect the user to the profile URL
+                            window.location.href = apiUrl;
+                            
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            console.error("Error:", textStatus, errorThrown);
+                        }
+                    });
+                } else {
+                    // If the authentication token is not found in local storage, log an error message
+                    console.error("Authentication token not found in local storage.");
+                }
+            });
+        });
+        $(document).ready(function () {
+            $("#logout").click(function (event) {
+                event.preventDefault(); // Prevent the default action of following the link
+
+                localStorage.removeItem("authtoken");
+
+                window.location.href = "/aqib-plaltes/signup"; // Corrected URL
+            });
+        });
+
+        {% block js %} {% endblock js %}
     </script>
 </body>
 

@@ -18,4 +18,3 @@ $('.owl-carousel').owlCarousel({
         }
     }
 });
-

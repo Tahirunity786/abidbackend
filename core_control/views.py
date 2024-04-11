@@ -1,7 +1,27 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
+from core_control.models import Product
 
 # Create your views here.
+
+class Login(TemplateView):
+
+    template_name = 'core_control/login.html'
+
+    def get(self, request):
+
+        return render(request, self.template_name)
+    
+
+
+
+class Register(TemplateView):
+    template_name = 'core_control/form.html'
+
+    def get(self, request):
+        # Render the registration form
+        return render(request, self.template_name)
+
 
 class Plate_Detail(TemplateView):
 
@@ -23,10 +43,13 @@ class Cart(TemplateView):
 class Private_Plate(TemplateView):
 
     template_name = 'core_control/private-plates.html'
+    model = Product.objects.all()
 
     def get(self, request):
-
-        return render(request, self.template_name)
+        data={
+            "product":self.model
+        }
+        return render(request, self.template_name, data)
 
 
 class Faqs(TemplateView):
@@ -43,3 +66,7 @@ class Contact(TemplateView):
     def get(self,request):
 
         return render(request, self.template_name)
+    
+
+
+

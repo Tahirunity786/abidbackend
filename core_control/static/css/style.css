@@ -232,3 +232,10 @@
     width: 50%;
     text-align: center;
 }
+
+.nav-active {
+    color: rgb(245, 198, 69);
+    border-bottom: 2px solid rgb(245, 198, 69);
+    
+    font-weight: bold;
+}

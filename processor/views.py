@@ -1,12 +1,19 @@
 from django.views.generic import TemplateView
 from django.shortcuts import render, redirect
 
+from core_control.models import Product
+
 
 class Index(TemplateView):
 
     template_name  =  'index.html'
 
-    def get(self, request):
+    model = Product.objects.all()
 
-        return render(request, self.template_name)
+    def get(self, request):
+        print(self.model)
+        data={
+            "products":self.model
+        }
+        return render(request, self.template_name, data)
     
