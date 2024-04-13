@@ -13,13 +13,7 @@
     {% block optionalcssl %}{% endblock optionalcssl %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <style>
-        {
-            % block css %
-        }
-
-            {
-            % endblock css %
-        }
+        {% block css %} {% endblock css %}
     </style>
 
     <title>{% block title %}{% endblock title %}</title>
@@ -86,9 +80,9 @@
                                         </svg>
                                     </span>
                                     <span id="profilepic">
-                                        <img src="{% static 'media/IMG_20210927_172430-removebg-preview.png' %}"
+                                        <img src=""
                                             alt="profile pic" width="35" height="35" class="rounded-pill"
-                                            style="object-fit: cover; object-position: center;">
+                                            style="object-fit: cover; object-position: center; margin-top: 5px;">
                                     </span>
                                 </a>
                                 <ul id="dropdownMenu" class="dropdown-menu">
@@ -98,8 +92,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" type="button" data-bs-toggle="offcanvas"
-                                data-bs-target="#offcanvasRightcart" aria-controls="offcanvasRight">
+                            <a class="nav-link" type="button" href="/aqib-plaltes/private-plate/cart">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor"
                                     class="bi bi-cart" viewBox="0 0 16 16">
                                     <path
@@ -293,7 +286,80 @@
             });
         });
 
-        {% block js %} {% endblock js %}
+        // Check if "profile" key is present in session storage
+        if (sessionStorage.getItem('userData')) {
+            // If user data is available in session storage
+            const userData = JSON.parse(sessionStorage.getItem('userData'));
+            if (userData.profile) {
+                // If profile image path is available in user data, show it
+                const profileImgElement = document.getElementById('profilepic').getElementsByTagName('img')[0];
+                profileImgElement.src = userData.profile;
+                // Hide the profile icon span
+                document.getElementById('profileicon').style.display = 'none';
+                // Show the profile image
+                profileImgElement.style.display = 'inline-block';
+            } else {
+                // If profile image path is not available, show the SVG icon
+                document.getElementById('profileicon').style.display = 'inline-block';
+                // Hide the profile image
+                const profileImgElement = document.getElementById('profilepic').getElementsByTagName('img')[0];
+                profileImgElement.style.display = 'none';
+            }
+        } else {
+            // If user data is not available in session storage, show the SVG icon
+            document.getElementById('profileicon').style.display = 'inline-block';
+            // Hide the profile image
+            const profileImgElement = document.getElementById('profilepic').getElementsByTagName('img')[0];
+            profileImgElement.style.display = 'none';
+        }
+        
+
+    $(document).ready(function () {
+        // Handle form submission
+        $("#updatepassofpre").submit(function (event) {
+            event.preventDefault(); // Prevent the default form submission
+    
+            // Retrieve the authentication token from local storage
+            const authToken = localStorage.getItem("authtoken");
+    
+            // Ensure the token is available
+            if (!authToken) {
+                console.error("Authentication token not found in local storage.");
+                return;
+            }
+    
+            // Get form data
+            const formData = {
+                old_password: $('#prepass').val(),
+                new_password: $('#newpass').val(),
+                confirm_password: $('#confpass').val(),
+            };
+    
+            // Make the AJAX request
+            $.ajax({
+                url: '/aqib-plaltes/account/user/profile/pass/update',
+                type: "POST",
+                data: formData,
+                headers: {
+                    "Authorization": `Bearer ${authToken}`
+                },
+                success: function (data) {
+                    // Handle success response
+                    localStorage.removeItem("authtoken");
+                    window.location.href = "/aqib-plaltes/signup";
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    // Handle error response
+                    console.error("Error:", textStatus, errorThrown);
+                    // Optionally, show an error message to the user
+                }
+            });
+        });
+    });
+    
+    
+    
+    {% block js %} {% endblock js %}
     </script>
 </body>
 

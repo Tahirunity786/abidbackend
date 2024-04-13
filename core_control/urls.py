@@ -9,4 +9,5 @@ urlpatterns = [
     path('private-plate/contact', Contact.as_view(), name="Contact"),
     path('private-plate/explore', Private_Plate.as_view(), name="Explore"),
     path('private-plate/number-plate/detail', Plate_Detail.as_view(), name="Details"),
+    
 ]

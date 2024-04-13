@@ -17,9 +17,9 @@
 
 </head>
 
-<body style="background-color: #4070f4;">
+<body>
     <section class="d-flex justify-content-center align-items-center w-100 forms" style="height: 100vh;">
-        <div class="form login">
+        <div class="form login" style="box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;">
             <div class="form-content">
                 <header>Login</header>
                 <form id="loginuseraccount">
@@ -103,7 +103,16 @@
 
                         // Handle successful login
                         var link_active = localStorage.getItem('activeNav');
-                        window.location.href = link_active;
+
+
+                        if (link_active === undefined) { // Changed undefined to null
+                           
+                            window.location.href = link_active;
+                        } else {
+                            
+                            window.location.href = '/';
+                        }
+
                     },
                     error: function (xhr, status, error) {
                         // Handle login errors

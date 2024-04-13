@@ -3,6 +3,8 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+
+    
 class ProductImages(models.Model):
     image = models.ImageField(upload_to='product/images', db_index=True, default=None)
 
@@ -20,8 +22,6 @@ class Product(models.Model):
     tag = models.CharField(max_length=50, default="")
 
     published = models.BooleanField(default=True)
-    
-
 
 class Address(models.Model):
 

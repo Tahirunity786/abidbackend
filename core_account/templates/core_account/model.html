@@ -7,12 +7,14 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="updateform" >
+                <form id="updateform">
                     <div class="row p-4 align-items-center">
                         <div class="col-lg-6 col-md-6 col-sm-12 d-flex justify-content-center">
-                            <img src="https://dummyimage.com/150x150/000/fff" alt="image"
-                                class="rounded-pill text-center">
-                            <div style="text-align: center; padding-top: 8px; height: 50px; width: 50px; background-color: whitesmoke; position: relative; top: 70px; left: -20px; " class="rounded-pill">
+                            <img src="https://dummyimage.com/150x150/000/fff" alt="image" name="pic"
+                                class="rounded-pill text-center" style="object-fit: cover;" width="150" height="150"
+                                id="image-preview">
+                            <div style="text-align: center; padding-top: 8px; height: 50px; width: 50px; background-color: whitesmoke; position: relative; top: 70px; left: -20px; "
+                                class="rounded-pill">
                                 <label for="prof">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
                                         class="bi bi-camera-fill" viewBox="0 0 16 16">
@@ -22,7 +24,7 @@
                                     </svg>
                                 </label>
                             </div>
-                            <input type="file" id="prof" class="d-none">
+                            <input type="file" id="prof" class="d-none" onchange="previewImage(event)">
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-12">
                             <input class="form-control" type="text" id="upfullname" placeholder="Fullname">
@@ -74,27 +76,30 @@
                 <h1 class="modal-title fs-5" id="staticBackdropLabel">Change Password</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form >
+            <form id="updatepassofpre">
+                <div class="modal-body">
                     <div class="row p-4">
                         <div class="col-xl-12 mb-3">
-                            <input class="form-control" type="password" placeholder="Previous Password"
+                            <input class="form-control" type="password" id="prepass" name="prepass" placeholder="Previous Password"
                                 aria-label="default input example">
                         </div>
                         <div class="col-xl-12 mb-3">
-                            <input class="form-control" type="password" placeholder="New Password"
-                                aria-label="default input example">
+                            <input class="form-control" type="password" id="newpass" name="newpass" placeholder="New Password"
+                                aria-label="default input example" onkeyup="checkPasswordStrength()">
+                            <span id="passwordStrength"></span>
                         </div>
-                        <div class=" col-xl-12 mb-3">
-                            <input class="form-control" type="password" placeholder="Confirm Password">
+                        <div class="col-xl-12 mb-3">
+                            <input class="form-control" type="password" id="confpass" name="confpass" placeholder="Confirm Password"
+                                onkeyup="checkPasswordsMatch()">
+                            <span id="passwordMatch"></span>
                         </div>
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary">Update</button>
-
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-secondary">Update</button>
+                </div>
+            </form>
+            
         </div>
     </div>
 </div>

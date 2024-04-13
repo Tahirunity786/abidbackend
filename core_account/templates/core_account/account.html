@@ -159,47 +159,101 @@ $(document).ready(function () {
         // Retrieve the authentication token from local storage
         const authToken = localStorage.getItem("authtoken");
 
-        // Make sure the token is not null or empty
-        if (authToken) {
-            // Construct the FormData object to send files
-            var formData = new FormData();
-            formData.append('full_name', $('#upfullname').val());
-            formData.append('email', $('#upemail').val());
-            formData.append('mobile_number', $('#upphno').val());
-            formData.append('gender', $('#upgend').val());
-            formData.append('date_of_birth', $('#upDOB').val());
-
-            // Append the profile image file, if selected
-            var profileFile = $('#prof')[0].files[0];
-            if (profileFile) {
-                formData.append('profile', profileFile);
-            }
-
-            // Make the AJAX request
-            $.ajax({
-                url: '/aqib-plaltes/account/user/profile/update',
-                type: "POST",
-                data: formData,
-                headers: {
-                    "Authorization": `Bearer ${authToken}`
-                },
-                processData: false,  // Prevent jQuery from automatically processing the data
-                contentType: false,  // Prevent jQuery from setting the content type
-                success: function (data) {
-                    // Save user_data to sessionStorage
-                    var userDataString = JSON.stringify(data);
-                    sessionStorage.setItem('userData', userDataString);
-                    window.location.href = "/aqib-plaltes/user/profile";
-                },
-                error: function (xhr, textStatus, errorThrown) {
-                    console.error("Error:", textStatus, errorThrown);
-                }
-            });
-        } else {
-            // If the authentication token is not found in local storage, log an error message
+        // Ensure the token is available
+        if (!authToken) {
             console.error("Authentication token not found in local storage.");
+            return;
         }
+
+        // Prepare the data to send
+        const userData = {
+            full_name: $('#upfullname').val(),
+            email: $('#upemail').val(),
+            mobile_number: $('#upphno').val(),
+            gender: $('#upgend').val(),
+            date_of_birth: $('#upDOB').val(),
+            // Optionally, include the image file if selected
+        };
+
+        // Construct the FormData object to send files
+        const formData = new FormData();
+        Object.entries(userData).forEach(([key, value]) => {
+            formData.append(key, value);
+        });
+
+        // Append the profile image file, if selected
+        const profileFile = $('#prof')[0].files[0];
+        if (profileFile) {
+            formData.append('pic', profileFile);
+        }
+
+        // Make the AJAX request
+        $.ajax({
+            url: '/aqib-plaltes/account/user/profile/update',
+            type: "POST",
+            data: formData,
+            headers: {
+                "Authorization": `Bearer ${authToken}`
+            },
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                // Handle success response
+                sessionStorage.setItem('userData', JSON.stringify(data));
+                window.location.href = "/aqib-plaltes/user/profile";
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.error("Error:", textStatus, errorThrown);
+            }
+        });
     });
 });
+function checkPasswordStrength() {
+    var password = document.getElementById('newpass').value;
+    var passwordStrengthElement = document.getElementById('passwordStrength');
 
+    // Regular expressions to check if password contains characters, numerics, and special characters
+    var hasChar = /[a-zA-Z]/.test(password);
+    var hasNumber = /\d/.test(password);
+    var hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+    // Check if password length is at least 8 characters
+    var isValidLength = password.length >= 8;
+
+    // Update password strength message based on requirements
+    if (isValidLength && hasChar && hasNumber && hasSpecialChar) {
+        passwordStrengthElement.textContent = 'Strong password';
+        passwordStrengthElement.style.color = 'green';
+    } else {
+        passwordStrengthElement.textContent = 'Weak password: must contain characters, numerics, special characters, and be at least 8 characters long';
+        passwordStrengthElement.style.color = 'red';
+    }
+}
+
+function checkPasswordsMatch() {
+    var newPassword = document.getElementById('newpass').value;
+    var confirmPassword = document.getElementById('confpass').value;
+    var passwordMatchElement = document.getElementById('passwordMatch');
+
+    // Check if passwords match
+    if (newPassword === confirmPassword) {
+        passwordMatchElement.textContent = 'Passwords match';
+        passwordMatchElement.style.color = 'green';
+    } else {
+        passwordMatchElement.textContent = 'Passwords do not match';
+        passwordMatchElement.style.color = 'red';
+    }
+}
+
+
+
+function previewImage(event) {
+    var input = event.target;
+    var reader = new FileReader();
+    reader.onload = function () {
+        var img = document.getElementById('image-preview');
+        img.src = reader.result;
+    };
+    reader.readAsDataURL(input.files[0]);
+}
 {% endblock js %}

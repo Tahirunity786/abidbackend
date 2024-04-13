@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
+from core_control.models import Product
 User = get_user_model()
 
 import uuid
@@ -47,3 +48,18 @@ class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id',"profile", 'full_name', 'email', 'date_of_birth','gender', 'mobile_number', "is_verified")
+
+class ProductSerializer(serializers.ModelSerializer):
+    first_image = serializers.SerializerMethodField()
+
+    def get_first_image(self, obj):
+        # Get the first image of the product
+        first_image = obj.images.first()
+        if first_image:
+            return first_image.image.url
+        else:
+            return None
+
+    class Meta:
+        model = Product
+        fields = "__all__"

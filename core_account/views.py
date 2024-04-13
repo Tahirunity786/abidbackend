@@ -7,16 +7,17 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework import status
 # Serializer
-from core_account.serializers import CreateUserSerializer, UserProfileSerializer
+from core_account.serializers import CreateUserSerializer, UserProfileSerializer, ProductSerializer
 
 # Utiles
 from core_account.token import get_tokens_for_user
+from core_account.serializers import Product
 # Get User model
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate, login
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
-
+from django.contrib.auth.hashers import make_password
 User = get_user_model()
 # Create your views here.
 
@@ -86,8 +87,6 @@ class UserRegistration(APIView):
             # Tokken generate for user
             token = get_tokens_for_user(user)
 
-
-
             profile_url = settings.BACKEND + user.profile.url if user.profile else None
             user_data = {
             "id": user.id,
@@ -96,7 +95,7 @@ class UserRegistration(APIView):
             "date_of_birth": user.date_of_birth,
             "gender": user.gender,
             "mobile_number": user.mobile_number,
-            "pic": profile_url,
+            "profile": profile_url,
             'token':token,
                  }
             return Response({"user":user_data}, status=status.HTTP_201_CREATED)
@@ -148,7 +147,7 @@ class UserLogin(APIView):
             "date_of_birth": authenticated_user.date_of_birth,
             "mobile_number": authenticated_user.mobile_number,
             "gender": authenticated_user.gender,
-            "pic": profile_url,
+            "profile": profile_url,
             "token": token,
 }
 
@@ -194,6 +193,7 @@ class ProfileUpdate(APIView):
         if not request.data:
             return Response({"Error": "No data provided"}, status=status.HTTP_400_BAD_REQUEST)
         
+        pic = request.FILES.get("pic")
         fullname = request.data.get("full_name")
         email = request.data.get("email")
         mobile = request.data.get("mobile_number")
@@ -201,6 +201,8 @@ class ProfileUpdate(APIView):
         date_of_birth = request.data.get("date_of_birth")
        
         # Updating the profile
+        if pic:
+            user_profile.profile = pic
         if fullname:
             user_profile.full_name = fullname
         if email:
@@ -216,3 +218,53 @@ class ProfileUpdate(APIView):
 
         serializer = UserProfileSerializer(user_profile)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class UpdatePassword(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        # Get current user
+        user = request.user
+
+        # Get data from request
+        old_password = request.data.get('old_password')
+        new_password = request.data.get('new_password')
+        confirm_password = request.data.get('confirm_password')
+        print(old_password)
+        # Check if old password matches
+        if not user.check_password(old_password):
+            print("Here is check password error")
+            return Response({'error': 'Old password is incorrect.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Check if new password matches confirm password
+        if new_password != confirm_password:
+        
+            return Response({'error': 'New password and confirm password do not match.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Check if new password is the same as old password
+        if old_password == new_password:
+            print("Here checking that if user entering old password")
+            return Response({'error': 'New password must be different from old password.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Update password
+        user.password = make_password(new_password)
+        user.save()
+
+        return Response({'message': 'Password updated successfully.'}, status=status.HTTP_200_OK)
+
+class UserCartDetailsAgent(APIView):
+    
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        product_id = request.POST.get("product_id")
+        
+        try:
+            product = Product.objects.get(id=product_id)
+        except Product.DoesNotExist:
+            return Response({"Error":"Product not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializers = ProductSerializer(instance=product)
+
+        return Response(serializers.data, status=status.HTTP_200_OK)

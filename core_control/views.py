@@ -2,7 +2,16 @@ from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 from core_control.models import Product
 
-# Create your views here.
+# REST API LIBRARY
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.views import APIView
+from rest_framework import status
+
+
+
+
 
 class Login(TemplateView):
 
@@ -67,6 +76,4 @@ class Contact(TemplateView):
 
         return render(request, self.template_name)
     
-
-
 

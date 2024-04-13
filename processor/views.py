@@ -5,15 +5,9 @@ from core_control.models import Product
 
 
 class Index(TemplateView):
+    template_name = 'index.html'
 
-    template_name  =  'index.html'
-
-    model = Product.objects.all()
-
-    def get(self, request):
-        print(self.model)
-        data={
-            "products":self.model
-        }
-        return render(request, self.template_name, data)
-    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['products'] = Product.objects.all()  # Fetch all products from the database
+        return context
